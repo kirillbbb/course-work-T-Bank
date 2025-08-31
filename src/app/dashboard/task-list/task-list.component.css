@@ -1,0 +1,141 @@
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-bottom: var(--padding-base);
+}
+
+.add-task-form {
+  background-color: var(--card-background-color);
+  padding: var(--padding-base);
+  border-radius: var(--border-radius-base);
+  box-shadow: var(--box-shadow-base);
+  margin-bottom: var(--padding-base);
+  transition: all var(--transition-duration) ease-in-out;
+  animation: fadeInDown var(--transition-duration) ease-in-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+.add-button {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 16px;
+}
+.dashboard-expansion-panel-header {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.dashboard-expansion-panel-content {
+  padding: 16px;
+}
+
+.task-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.task-list-item-card {
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  border-radius: var(--border-radius-base);
+  box-shadow: var(--box-shadow-base);
+  transition: box-shadow var(--transition-duration) ease-in-out, filter var(--transition-duration) ease-in-out;
+}
+
+.task-list-item-card:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  filter: brightness(0.95);
+}
+
+.task-list-item-card p {
+  margin: 0;
+}
+
+.task-display-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.task-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title-and-priority {
+  display: flex;
+  align-items: center;
+}
+
+.task-title {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: #333;
+}
+
+.task-priority-label {
+  font-size: 0.9em;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: #fff;
+  margin-left: 10px;
+}
+
+.priority-low { background-color: #4CAF50; }
+.priority-medium { background-color: #FFC107; }
+.priority-high { background-color: #F44336; }
+
+.task-actions {
+  display: flex;
+  align-items: center;
+}
+
+.task-status-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.file-upload-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.file-upload-container .file-name {
+  font-size: 0.9em;
+  color: rgba(0, 0, 0, 0.6);
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task-completed {
+  border: 2px solid #4CAF50; /* Зелёная рамка */
+}
+
+.task-overdue {
+  border: 2px solid #F44336; /* Красная рамка */
+}

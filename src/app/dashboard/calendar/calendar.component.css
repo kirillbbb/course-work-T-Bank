@@ -1,0 +1,18 @@
+.dashboard-expansion-panel-content .fc {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.dashboard-expansion-panel {
+  border-radius: var(--border-radius-base);
+  box-shadow: var(--box-shadow-base);
+  margin-bottom: 16px;
+}
+
+.dashboard-expansion-panel-header {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+.mat-expansion-panel{
+  border-radius: 12px !important;
+}

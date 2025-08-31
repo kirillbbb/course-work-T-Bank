@@ -1,0 +1,19 @@
+
+<mat-toolbar color="primary" class="main-toolbar">
+  <span>Прогресс-трекер</span>
+  <span class="spacer"></span>
+
+  <div class="nav-buttons">
+    <button mat-button routerLink="/dashboard" routerLinkActive="active">Дашборд</button>
+    <button mat-button routerLink="/projects" routerLinkActive="active">Проекты</button>
+    <button mat-button routerLink="/analytics" routerLinkActive="active">Аналитика</button>
+  </div>
+
+  <span class="spacer"></span>
+
+  <button mat-button (click)="logout()">Выйти</button>
+</mat-toolbar>
+
+<div class="page-content">
+  <router-outlet></router-outlet>
+</div>

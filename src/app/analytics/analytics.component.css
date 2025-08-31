@@ -1,0 +1,94 @@
+.analytics-card {
+  max-width: 1200px;
+  margin: 24px auto;
+
+}
+
+.metrics-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.metric-item {
+  text-align: center;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+
+.metric-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.metric-content mat-icon {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+}
+
+.metric-content h3 {
+  margin: 8px 0 4px;
+  font-size: 1.25rem;
+}
+
+.metric-content p {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.chart-container {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.percentage-card, .priority-card {
+  flex-grow: 1;
+  min-width: 300px;
+  padding: 16px;
+
+  border-radius: 8px;
+}
+
+.percentage-text {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+}
+.canvas-wrapper {
+  position: relative;
+  height: 250px;
+  width: 100%;
+}
+
+.analytics-card {
+  max-width: 1200px;
+  margin: 24px auto;
+
+}
+
+.chart-container {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.percentage-card, .priority-card {
+  flex-grow: 1;
+  min-width: 300px;
+  padding: 16px;
+  border-radius: 8px;
+}
+.percentage-card p,
+.priority-card p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+  color: #555;
+}

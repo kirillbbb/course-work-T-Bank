@@ -1,0 +1,22 @@
+.main-toolbar {
+  box-shadow: var(--box-shadow-base);
+  z-index: 100;
+}
+
+.main-toolbar button {
+  margin: 0 8px;
+  font-weight: 500;
+  transition: all var(--transition-duration) ease;
+}
+
+.main-toolbar button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.content-container {
+  padding: var(--padding-base);
+}

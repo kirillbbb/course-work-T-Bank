@@ -1,0 +1,213 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Текущие задачи</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="button-container add-button">
+      <button mat-raised-button color="primary" (click)="toggleAddTaskForm()">
+        {{ isAddingTask ? 'Отмена' : 'Добавить задачу' }}
+      </button>
+    </div>
+    <div *ngIf="isAddingTask" class="add-task-form">
+      <form #taskForm="ngForm" (ngSubmit)="addTask(taskForm)">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Название задачи</mat-label>
+          <input matInput [(ngModel)]="newTask.title" name="title" required>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Описание</mat-label>
+          <textarea matInput [(ngModel)]="newTask.description" name="description"></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Выберите диапазон дат</mat-label>
+          <mat-date-range-input [rangePicker]="rangePicker">
+            <input matStartDate (click)="rangePicker.open()" [(ngModel)]="newTask.startDate" name="startDate" placeholder="Дата начала">
+            <input matEndDate (click)="rangePicker.open()" [(ngModel)]="newTask.endDate" name="endDate" placeholder="Дата окончания">
+          </mat-date-range-input>
+          <mat-hint>ММ/ДД/ГГГГ – ММ/ДД/ГГГГ</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #rangePicker></mat-date-range-picker>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Приоритет</mat-label>
+          <mat-select [(ngModel)]="newTask.priority" name="priority">
+            <mat-option value="low">Низкий</mat-option>
+            <mat-option value="medium">Средний</mat-option>
+            <mat-option value="high">Высокий</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Заметки</mat-label>
+          <textarea matInput [(ngModel)]="newTask.notes" name="notes"></textarea>
+        </mat-form-field>
+        <div class="file-upload-container">
+          <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">
+            <mat-icon>attachment</mat-icon>
+            Прикрепить файл
+          </button>
+          <input hidden type="file" #fileInput (change)="onFileSelected($event)">
+          <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
+        </div>
+
+        <mat-label class="slider-label">Прогресс: {{ formatLabel(newTask.progress) }}</mat-label>
+        <mat-slider
+          class="full-width"
+          min="0"
+          max="100"
+          tickInterval="10"
+          discrete>
+          <input matSliderThumb [(ngModel)]="newTask.progress" name="progress">
+        </mat-slider>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!taskForm.valid">
+          Сохранить задачу
+        </button>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-accordion class="dashboard-accordion">
+  <mat-expansion-panel class="dashboard-expansion-panel" expanded>
+    <mat-expansion-panel-header class="dashboard-expansion-panel-header">
+      <mat-panel-title>
+        Список задач
+      </mat-panel-title>
+      <mat-panel-description>
+        Детальный просмотр и быстрая сортировка
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div class="dashboard-expansion-panel-content">
+      <div class="sort-container">
+        <button mat-button [matMenuTriggerFor]="sortMenu">
+          Сортировка по: {{ getSortName() }}
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #sortMenu="matMenu">
+          <button mat-menu-item (click)="sortBy('createdAt', 'asc')">Дате создания (по возрастанию)</button>
+          <button mat-menu-item (click)="sortBy('createdAt', 'desc')">Дате создания (по убыванию)</button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="sortBy('priority', 'asc')">Приоритету (от низкого к высокому)</button>
+          <button mat-menu-item (click)="sortBy('priority', 'desc')">Приоритету (от высокого к низкому)</button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="sortBy('progress', 'asc')">Прогрессу (по возрастанию)</button>
+          <button mat-menu-item (click)="sortBy('progress', 'desc')">Прогрессу (по убыванию)</button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="sortBy('title', 'asc')">Имени (А-Я)</button>
+          <button mat-menu-item (click)="sortBy('title', 'desc')">Имени (Я-А)</button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="sortBy('endDate', 'asc')">Дате окончания (по возрастанию)</button>
+          <button mat-menu-item (click)="sortBy('endDate', 'desc')">Дате окончания (по убыванию)</button>
+        </mat-menu>
+      </div>
+      <div class="task-list-container" *ngIf="tasks && tasks.length">
+        <mat-card
+          class="task-list-item-card"
+          *ngFor="let task of tasks; trackBy: trackByTask"
+          [@flyInOut]
+          [ngClass]="{
+            'task-completed': task.status === 'completed',
+            'task-overdue': task.status === 'overdue' && task.completed === false
+          }">
+          <div *ngIf="task.id !== editingTaskId" class="task-display-container">
+            <div class="task-header">
+              <div class="title-and-priority">
+                <span class="task-title" [ngClass]="{'overdue': isOverdue(task)}">{{task.title}}</span><span class="task-priority-label" [ngClass]="'priority-' + task.priority">
+                  {{task.priority}}
+                </span>
+              </div>
+              <div class="task-actions">
+                <button mat-icon-button (click)="editTask(task)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteTask(task.id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <button mat-icon-button (click)="downloadFile(task)" *ngIf="task.fileUrl">
+                  <mat-icon>attachment</mat-icon>
+                </button>
+              </div>
+            </div>
+            <p>{{task.description}}</p>
+            <p *ngIf="task.startDate && task.endDate">Срок: {{task.startDate | date}} - {{task.endDate | date}}</p>
+            <p *ngIf="!task.startDate && task.endDate">Срок: {{task.endDate | date}}</p>
+            <p>Прогресс: {{task.progress}}%</p>
+
+            <div class="task-status-actions">
+              <button mat-stroked-button color="primary" (click)="markAsCompleted(task)" *ngIf="task.status !== 'completed'">
+                Выполнено
+                <mat-icon>done</mat-icon>
+              </button>
+              <button mat-stroked-button color="warn" (click)="markAsOverdue(task)" *ngIf="task.status !== 'overdue'">
+                Просрочено
+                <mat-icon>alarm</mat-icon>
+              </button>
+              <button mat-stroked-button (click)="unmarkTask(task)" *ngIf="task.status === 'completed' || task.status === 'overdue'">
+                Вернуть в ленту
+                <mat-icon>history</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div *ngIf="task.id === editingTaskId" class="edit-form-container">
+            <form #editForm="ngForm" (ngSubmit)="updateTask()">
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Название задачи</mat-label>
+                <input matInput [(ngModel)]="editingTask.title" name="title" required>
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Описание</mat-label>
+                <textarea matInput [(ngModel)]="editingTask.description" name="description"></textarea>
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Выберите диапазон дат</mat-label>
+                <mat-date-range-input [rangePicker]="editRangePicker">
+                  <input matStartDate (click)="editRangePicker.open()" [(ngModel)]="editingTask.startDate" name="startDate" placeholder="Дата начала">
+                  <input matEndDate (click)="editRangePicker.open()" [(ngModel)]="editingTask.endDate" name="endDate" placeholder="Дата окончания">
+                </mat-date-range-input>
+                <mat-hint>ММ/ДД/ГГГГ – ММ/ДД/ГГГГ</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="editRangePicker"></mat-datepicker-toggle>
+                <mat-date-range-picker #editRangePicker></mat-date-range-picker>
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Приоритет</mat-label>
+                <mat-select [(ngModel)]="editingTask.priority" name="priority">
+                  <mat-option value="low">Низкий</mat-option>
+                  <mat-option value="medium">Средний</mat-option>
+                  <mat-option value="high">Высокий</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Заметки</mat-label>
+                <textarea matInput [(ngModel)]="editingTask.notes" name="notes"></textarea>
+              </mat-form-field>
+
+              <div class="file-upload-container">
+                <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">
+                  <mat-icon>attachment</mat-icon>
+                  Прикрепить новый файл
+                </button>
+                <input hidden type="file" #fileInput (change)="onFileSelected($event)">
+                <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
+              </div>
+
+              <mat-label class="slider-label">Прогресс: {{ formatLabel(editingTask.progress) }}</mat-label>
+              <mat-slider
+                class="full-width"
+                min="0"
+                max="100"
+                tickInterval="10"
+                discrete>
+                <input matSliderThumb [(ngModel)]="editingTask.progress" name="progress">
+              </mat-slider>
+              <div class="edit-actions">
+                <button mat-raised-button color="primary" type="submit" [disabled]="!editForm.valid">Сохранить</button>
+                <button mat-raised-button type="button" (click)="onCancelEdit()">Отмена</button>
+              </div>
+            </form>
+          </div>
+        </mat-card>
+      </div>
+      <p *ngIf="!tasks || tasks.length === 0">Пока нет задач. Добавьте первую!</p>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

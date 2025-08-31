@@ -1,0 +1,67 @@
+<div class="main-container">
+  <mat-card class="analytics-card">
+    <mat-card-header>
+      <mat-card-title>Аналитика по задачам</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+      <div class="metrics-container">
+        <mat-card class="metric-item">
+          <mat-card-content class="metric-content">
+            <mat-icon color="primary">check_circle_outline</mat-icon>
+            <h3>Выполнено</h3>
+            <p>{{ completedTasks }}</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="metric-item">
+          <mat-card-content class="metric-content">
+            <mat-icon color="warn">error_outline</mat-icon>
+            <h3>Просрочено</h3>
+            <p>{{ overdueTasks }}</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="metric-item">
+          <mat-card-content class="metric-content">
+            <mat-icon color="accent">hourglass_empty</mat-icon>
+            <h3>В процессе</h3>
+            <p>{{ inProgressTasks }}</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="metric-item">
+          <mat-card-content class="metric-content">
+            <mat-icon>list_alt</mat-icon>
+            <h3>Всего задач</h3>
+            <p>{{ totalTasks }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="chart-container">
+        <mat-card class="percentage-card">
+          <h3>Процент выполнения</h3>
+          <p class="percentage-text">{{ completedPercentage }}%</p>
+          <div class="canvas-wrapper">
+            <canvas id="tasks-pie-chart"></canvas>
+          </div>
+          <p>Всего задач: {{ totalTasks }}</p>
+          <p>Выполнено: {{ completedTasks }}</p>
+          <p>В процессе: {{ inProgressTasks }}</p>
+          <p>Просрочено: {{ overdueTasks }}</p>
+        </mat-card>
+
+        <mat-card class="priority-card">
+          <h3>Задачи по приоритету</h3>
+          <div class="canvas-wrapper">
+            <canvas id="priority-bar-chart"></canvas>
+          </div>
+          <p>Низкий: {{ priorityLow }}</p>
+          <p>Средний: {{ priorityMedium }}</p>
+          <p>Высокий: {{ priorityHigh }}</p>
+        </mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

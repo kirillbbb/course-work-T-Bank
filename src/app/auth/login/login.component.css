@@ -1,0 +1,15 @@
+.login-card {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+}
+.error {
+  color: red;
+  margin: 10px 0;
+}
+.login-btn{
+  margin-right: 16px;
+}
+.welcome-text{
+  margin-bottom: 16px;
+}

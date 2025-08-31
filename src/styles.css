@@ -1,0 +1,140 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+:root {
+  --background-color: #E3F2FD;
+  --card-background-color: #FFFFFF;
+  --text-color: #263238;
+  --border-radius-base: 12px;
+  --padding-base: 20px;
+  --box-shadow-base: 0 6px 15px rgba(0, 0, 0, 0.08);
+  --transition-duration: 0.4s;
+}
+html {
+  overflow-y: scroll;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  font-size: 18px;
+}
+
+.mat-mdc-card {
+  border-radius: var(--border-radius-base);
+  box-shadow: var(--box-shadow-base);
+  background-color: var(--card-background-color);
+  transition: box-shadow var(--transition-duration) ease-in-out, filter var(--transition-duration) ease-in-out;
+}
+
+.mat-mdc-card:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  filter: brightness(0.95);
+}
+
+.mat-mdc-button, .mat-mdc-raised-button {
+  border-radius: 50px;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all var(--transition-duration) ease;
+}
+
+.mat-mdc-button:hover, .mat-mdc-raised-button:hover {
+  filter: brightness(1.1);
+}
+
+.mat-toolbar.mat-primary {
+  background: linear-gradient(135deg, #3f51b5 0%, #303f9f 100%);
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-toolbar .mat-button {
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+  transition: background-color 0.3s ease;
+}
+
+.main-toolbar .mat-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.main-toolbar .mat-button.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+.mat-mdc-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.mat-mdc-menu-panel,
+.mat-mdc-select-panel {
+  background-color: white !important;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+  border-radius: var(--border-radius-base);
+}
+
+.mat-mdc-menu-item-text,
+.mat-mdc-option-text {
+  color: var(--text-color);
+}
+
+.content-container {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.dashboard-accordion {
+  max-width: 1200px;
+  margin: 24px auto;
+}
+
+.dashboard-expansion-panel {
+  border-radius: var(--border-radius-base);
+  box-shadow: var(--box-shadow-base);
+  margin: 16px 0 !important;
+}
+.dashboard-expansion-panel-header {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+@media (max-width: 600px) {
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+  }
+
+  p, span {
+    font-size: 0.8rem;
+  }
+
+  .mat-button {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  /* Можно также уменьшить padding у основного контента */
+  .page-content {
+    padding: 8px;
+  }
+
+  .task-card .task-title {
+    font-size: 0.9rem;
+  }
+
+  .task-card .task-details {
+    font-size: 0.7rem;
+  }
+}

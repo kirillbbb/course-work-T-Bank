@@ -1,0 +1,54 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Архив проектов</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-accordion>
+      <mat-expansion-panel
+        *ngFor="let task of archivedTasks; trackBy: trackByTask"
+        [ngClass]="{
+          'task-completed': task.status === 'completed',
+          'task-overdue': task.status === 'overdue' && task.completed === false
+        }">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ task.title }}
+          </mat-panel-title>
+          <mat-panel-description>
+            <mat-icon *ngIf="task.status === 'in-progress'">hourglass_empty</mat-icon>
+            <mat-icon *ngIf="task.status === 'completed'">done_all</mat-icon>
+            <mat-icon *ngIf="task.status === 'overdue'">alarm_on</mat-icon>
+            <span *ngIf="task.status === 'completed'">Выполнено </span>
+            <span *ngIf="task.status === 'overdue'">Просрочено </span>
+            <span *ngIf="task.status === 'in-progress'">В процессе </span>
+
+
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p><b>Описание:</b> {{ task.description }}</p>
+        <p *ngIf="task.startDate && task.endDate"><b>Срок:</b> {{ task.startDate | date }} - {{ task.endDate | date }}</p>
+        <p *ngIf="!task.startDate && task.endDate"><b>Срок:</b> {{ task.endDate | date }}</p>
+        <p><b>Прогресс:</b> {{ task.progress }}%</p>
+        <p *ngIf="task.fileUrl">
+          <b>Прикрепленный файл:</b> <a [href]="task.fileUrl" target="_blank">{{ task.fileName }}</a>
+          <button mat-icon-button (click)="downloadFile(task)">
+            <mat-icon>attachment</mat-icon>
+          </button>
+        </p>
+        <div class="task-actions">
+          <button
+            mat-raised-button
+            (click)="unmarkTask(task)"
+            *ngIf="task.status === 'completed' || task.status === 'overdue'">
+            <mat-icon>history</mat-icon>
+            Вернуть в ленту
+          </button>
+          <button mat-raised-button color="warn" (click)="deleteTask(task.id)">
+            <mat-icon>delete</mat-icon>
+            Удалить
+          </button>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card-content>
+</mat-card>
